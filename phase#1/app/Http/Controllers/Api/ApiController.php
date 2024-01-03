@@ -43,7 +43,23 @@ class ApiController extends Controller
      */
     public function listEmployee(){
         
-        // list-employee
+        $employee = new Employee;
+        $data = $employee->all();
+      
+        if (empty($data)) {
+            return response()->json([
+                "status" => false,
+                "message" => "No Employee Found",
+            ]);
+        } else {
+            return response()->json([
+                "status" => true,
+                "message" => "Employee Found",
+                "data" => $data
+            ]);
+        }
+
+
     }
 
     /**
