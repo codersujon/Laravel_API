@@ -11,12 +11,31 @@ class ApiController extends Controller
     /**
      * Add Employee (POST, formdata)
      */
-    public function addEmployee(){
+    public function addEmployee(Request $request){
         
-        $employee = new Employee(); // instance of employee model
-        
-        // add-employee
-      
+        // VALIDATE POST DATA
+        $request->validate([
+            "name" => "required",
+            "email" => "required|email|unique:employees",
+            "age" => "required",
+            "gender" => "required"
+        ]);
+
+
+        $employee = new Employee();  // instance of employee model
+
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->phone_number = $request->phone_number;
+        $employee->age = $request->age;
+        $employee->gender = $request->gender;
+        $employee->save();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Employee Saved Successfully!"
+        ]);
+       
     }
 
     /**
