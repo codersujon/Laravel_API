@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Employee;
 
 class ApiController extends Controller
 {
@@ -11,8 +12,11 @@ class ApiController extends Controller
      * Add Employee (POST, formdata)
      */
     public function addEmployee(){
-
+        
+        $employee = new Employee(); // instance of employee model
+        
         // add-employee
+      
     }
 
     /**
