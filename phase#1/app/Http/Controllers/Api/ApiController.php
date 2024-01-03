@@ -92,9 +92,30 @@ class ApiController extends Controller
     /**
      * Update Employee (PUT, formdata)
      */
-    public function updateEmployee(string $employeeId){
+    public function updateEmployee(Request $request, $employeeId){
+        
+        if(Employee::where('id', $employeeId)->exists()){
+            // Using Ternery Operator check the field is empty or not
+            $employee = Employee::find($employeeId);
 
-        // update-employee need <EmpID>
+            $employee->name = !empty($request->name) ? $request->name: $employee->name;
+            $employee->email = !empty($request->email) ? $request->email: $employee->email;
+            $employee->phone_number = !empty($request->phone_number) ? $request->phone_number: $employee->phone_number;
+            $employee->age = !empty($request->age) ? $request->age: $employee->age;
+            $employee->gender = !empty($request->gender) ? $request->gender: $employee->gender;
+            $employee->update();
+
+            return response()->json([
+                "status" => true,
+                "message" => "Employee Updated Successfully!",
+            ]);
+        }
+
+        return response()->json([
+            "status" => false,
+            "message" => "No Employee Found",
+        ]);
+        
     }
 
 
