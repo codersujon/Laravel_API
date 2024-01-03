@@ -43,21 +43,24 @@ class ApiController extends Controller
      */
     public function listEmployee(){
         
-        $employee = new Employee;
-        $data = $employee->all();
+        // $employee = new Employee;
+        // $data = $employee->all();
+
+        $data = Employee::get();
       
-        if (empty($data)) {
-            return response()->json([
-                "status" => false,
-                "message" => "No Employee Found",
-            ]);
-        } else {
+        if (!empty($data)) {
             return response()->json([
                 "status" => true,
                 "message" => "Employee Found",
                 "data" => $data
             ]);
-        }
+        } 
+
+        return response()->json([
+            "status" => false,
+            "message" => "No Employee Found",
+        ]);
+       
 
 
     }
@@ -67,7 +70,23 @@ class ApiController extends Controller
      */
     public function getSingleEmployee(string $employeeId){
 
-        // single-employee need <EmpID>
+        // $employee = new Employee;
+        // $data = $employee->where('id', $employeeId)->first();
+
+        $data = Employee::where('id', $employeeId)->first();
+
+        if(!empty($data)){
+            return response()->json([
+                "status" => true,
+                "message" => "Employee Data Found",
+                "data" => $data
+            ]);
+        }
+
+        return response()->json([
+            "status" => false,
+            "message" => "No employee found with the given ID",
+        ]);
     }
 
     /**
