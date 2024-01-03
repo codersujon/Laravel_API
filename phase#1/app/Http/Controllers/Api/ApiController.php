@@ -124,7 +124,20 @@ class ApiController extends Controller
      */
     public function deleteEmployee(string $employeeId){
 
-        //delete-employee need <EmpID>
+        if(Employee::where('id', $employeeId)->exists()){
+           $employee =  Employee::find($employeeId);
+           $employee->delete();
+
+           return response()->json([
+            "status" => true,
+            "message" => "Employee Successfully Deleted",
+           ]);
+        }
+
+        return response()->json([
+            "status" => false,
+            "message" => "No Employee Found!",
+        ]);
     }
 
 }
