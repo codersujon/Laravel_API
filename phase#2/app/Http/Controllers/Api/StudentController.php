@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use Illuminate\Support\Facades\Hash;
+
 
 class StudentController extends Controller
 {
@@ -14,6 +16,27 @@ class StudentController extends Controller
 
     public function register(Request $request){
 
+        // Validation 
+        $request->validate([
+            "name" => "required",
+            "email" => "required|email|unique:students",
+            "password" => "required|confirmed",
+            "phone_number" => "required|unique:students",
+        ]);
+
+        // Student model
+        Student::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "password" => Hash::make($request->password),
+            "phone_number" => $request->phone_number,
+        ]);
+
+        // Response
+        return response()->json([
+            "status" => true,
+            "message" => "Student Created Successfully!" 
+        ]);
     }
 
     /**
