@@ -66,7 +66,7 @@ class ProjectController extends Controller
     public function getSingleProject($project_id){
         $studentId = auth()->user()->id;
 
-        
+
         if(Project::where([
             "id"=> $project_id,
             "student_id"=> $studentId
@@ -95,6 +95,24 @@ class ProjectController extends Controller
      * Delete Project (DELETE)		--> Protected API Route
      */
     public function deleteProject($project_id){
+        $studentId =  auth()->user()->id;
+        
+        if( Project::where([
+            "id"=>$project_id,
+            "student_id"=>$studentId
+        ])->exists()){
+            $project = Project::where(["id"=>$project_id, "student_id"=>$studentId])->first();
+            $project->delete();
 
+            return response()->json([
+                "status"=> true,
+                "message"=> "Project Deleted!" 
+            ]);
+        }
+
+        return response()->json([
+            "status"=> false,
+            "message"=> "No Project Found!" 
+        ]);
     }
 }
