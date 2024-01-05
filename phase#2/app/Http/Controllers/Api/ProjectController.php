@@ -43,7 +43,21 @@ class ProjectController extends Controller
      * Get Project List By Student ID (GET)	--> Protected API Route
      */
     public function getProjectList(){
+        $studentId = auth()->user()->id;
+        $projects = Project::where("student_id", $studentId)->get();
 
+        if(!empty($projects)){
+            return response()->json([
+                "status"=> false,
+                "message"=> "Projects found successfully!",
+                "data"=>$projects
+            ]);
+        }
+
+        return response()->json([
+            "status"=> false,
+            "message"=> "No Project Found!"
+        ]);
     }
 
     /**
