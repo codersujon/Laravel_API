@@ -87,7 +87,13 @@ class StudentController extends Controller
      */
 
     public function profile(){
+        $data = Auth()->user();
 
+        return response()->json([
+            "status"=> true,
+            "message"=> "Profile Data",
+            "data"=> $data
+        ]);
     }
 
     /**
