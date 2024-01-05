@@ -44,7 +44,42 @@ class StudentController extends Controller
      */
     
     public function login(Request $request){
+        
+        // Validation
+        $request->validate([
+            "email" => "required|email",
+            "password" => "required"
+        ]);
 
+        // Student Check is it exists
+        $student = Student::where("email", $request->email)->first();
+        if(!empty($student)){
+            
+            if(Hash::check($request->password, $student->password)){
+
+                $token = $student->createToken("myToken")->plainTextToken;
+
+                return response()->json([
+                    "status"=> true,
+                    "message"=> "Login Successful",
+                    "token"=>$token
+                ]);
+            }
+
+            return response()->json([
+                "status"=> false,
+                "message"=> "Password did't match"
+            ]);
+        }
+
+        // Generate Sanctum Token
+
+
+        // Response
+        return response()->json([
+            "status"=> false,
+            "message"=> "Student doesn't exist"
+        ]);
     }
 
     /**

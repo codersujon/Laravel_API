@@ -32,7 +32,7 @@ Route::controller(StudentController::class)->group(function(){
 
 
 /**
- * Protected API Route with Authentication
+ * Protected API Route with Sanctum Authentication
  */
 Route::group([
     "middleware" => ["auth:sanctum"],
