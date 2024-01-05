@@ -100,6 +100,11 @@ class StudentController extends Controller
      * Student Logout (GET)
      */
     public function logout(){
+        auth()->user()->tokens()->delete();
         
+        return response()->json([
+            "status"=> true,
+            "message"=> "Student Logged Out Successfully!"
+        ]);
     }
 }
