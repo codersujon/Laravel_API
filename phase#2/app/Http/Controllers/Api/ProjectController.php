@@ -64,6 +64,30 @@ class ProjectController extends Controller
      * Get Single Project Details (GET)	--> Protected API Route
      */
     public function getSingleProject($project_id){
+        $studentId = auth()->user()->id;
+
+        
+        if(Project::where([
+            "id"=> $project_id,
+            "student_id"=> $studentId
+        ])->exists()){
+
+            $project = Project::where([
+                "id"=> $project_id,
+                "student_id"=> $studentId
+            ])->first();
+
+            return response()->json([
+                "status"=> true,
+                "message"=> "Project Found Successfully!",
+                "data"=> $project
+            ]);
+        }
+
+        return response()->json([
+            "status"=> false,
+            "message"=> "No Project Found!"
+        ]);
 
     }
 
